@@ -64,10 +64,9 @@ int main(int argc, const char *argv[]) {
   db.execute_query("INSERT INTO table1(row) VALUES ('85c57f38-a799-11f1-ac9c-afd28f9c0339');", error);
   db.execute_query("INSERT INTO table1(row) VALUES ('85c57f38-a799-11f1-ac9c-afd28f9c0340');", error);
 
-  sea5kg::sqlite3_wrapper::rows_iterator it;
-  db.select_rows("SELECT id, row FROM table1;", it, error);
-  while (it.next()) {
-    std::cout << it.as_long(0) << ": " << it.as_string(1) << std::endl;
+  auto it = db.select_rows("SELECT id, row FROM table1;", error);
+  while (it->next()) {
+    std::cout << it->as_long(0) << ": " << it->as_string(1) << std::endl;
   }
 
   return 0;

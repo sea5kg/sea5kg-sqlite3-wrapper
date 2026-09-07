@@ -135,8 +135,8 @@ int main() {
     return -1;
   }
 
-  sea5kg::sqlite3_wrapper::rows_iterator it;
-  if (!db.select_rows("SELECT id, role FROM roles;", it, error)) {
+  auto it = db.select_rows("SELECT id, role FROM roles;", error);
+  if (it == nullptr) {
     std::cerr << "Unexpected error for select, Error: " << error << std::endl;
     return -1;
   }
@@ -144,10 +144,10 @@ int main() {
   std::vector<std::string> expected_roles = {"role1", "role2", "role3"};
   std::vector<std::string> got_roles;
   int i_exp_role = 0;
-  while (it.next()) {
-    long id = it.as_long(0);
+  while (it->next()) {
+    long id = it->as_long(0);
     // std::cout << "id = " << id << std::endl;
-    std::string role = it.as_string(1);
+    std::string role = it->as_string(1);
     got_roles.push_back(role);
     if (role != expected_roles[i_exp_role]) {
       std::cerr << "Expected role: " << expected_roles[i_exp_role] << ", but got " << role << std::endl;

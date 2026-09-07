@@ -127,16 +127,9 @@ private:
 
 class rows_iterator {
 public:
-  rows_iterator();
-  ~rows_iterator();
-  void set_stmt(void *stmt);
-  void *stmt();
-  bool next();
-  std::string as_string(int column_idx);
-  long as_long(int column_idx);
-
-private:
-  void *m_stmt; // hidden type 'sqlite3_stmt *'
+  virtual bool next() = 0;
+  virtual std::string as_string(int nColumnNumber) = 0;
+  virtual long as_long(int nColumnNumber) = 0;
 };
 
 class database_file {
@@ -153,7 +146,7 @@ public:
   bool contains_table(const std::string &table_name);
   bool execute_query(const std::string &sql, std::string &error);
   int select_sum_or_count(const std::string &sql, std::string &error);
-  bool select_rows(const std::string &sql, rows_iterator &rows, std::string &error);
+  std::shared_ptr<rows_iterator> select_rows(const std::string &sql, std::string &error);
   bool copy_database_to_backup(std::string &error);
 
 private:
