@@ -18,9 +18,9 @@ keywords:
 
 distribution:
   - source-file: "src/sea5kg/sqlite3_wrapper/sea5kg_sqlite3_wrapper.h"
-    target-file: "sea5kg_sqlite3_database_wrapper.h"
+    target-file: "sea5kg_sqlite3_wrapper.h"
     type: "source-code"
   - source-file: "src/sea5kg/sqlite3_wrapper/sea5kg_sqlite3_wrapper.cpp"
-    target-file: "sea5kg_sqlite3_database_wrapper.cpp"
+    target-file: "sea5kg_sqlite3_wrapper.cpp"
     type: "source-code"
 
