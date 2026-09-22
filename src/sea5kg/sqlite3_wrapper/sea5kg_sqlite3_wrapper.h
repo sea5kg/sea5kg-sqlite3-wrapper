@@ -66,12 +66,12 @@ public:
 };
 
 extern std::map<std::string, std::vector<std::shared_ptr<database_update_fabric_base>>> *g_database_updates_fabric;
-extern std::map<std::string, std::shared_ptr<database_file>> *g_opened_database_files;
+extern std::map<std::string, database_file *> *g_opened_database_files;
 
 class global {
 public:
   static void registry_database_update_fabric(const std::string &db_name, std::shared_ptr<database_update_fabric_base>);
-  static void add_opened_database_file(const std::string &name, std::shared_ptr<database_file> db);
+  static void add_opened_database_file(const std::string &name, database_file *db);
   static bool init_driver_sqlite3(int &ret);
   static void shutdown_driver_sqlite3();
 };
@@ -98,8 +98,6 @@ private:
   std::string m_db_name;
   int m_weight;
 };
-
-// auto n = new sea5kg::sqlite3_wrapper::db_update_fabric<db_update_##class_name##_##ver_from##_##ver_to>(); \
 
 #define CLASS_DATABASE_UPDATE_BEGIN(class_name, ver_from, ver_to, description) \
   class db_update_##class_name##_##ver_from##_##ver_to; \
@@ -128,8 +126,8 @@ private:
 class rows_iterator {
 public:
   virtual bool next() = 0;
-  virtual std::string as_string(int nColumnNumber) = 0;
-  virtual long as_long(int nColumnNumber) = 0;
+  virtual std::string as_string(int column_idx) = 0;
+  virtual long as_long(int column_idx) = 0;
 };
 
 class database_file {
@@ -148,6 +146,7 @@ public:
   int select_sum_or_count(const std::string &sql, std::string &error);
   std::shared_ptr<rows_iterator> select_rows(const std::string &sql, std::string &error);
   bool copy_database_to_backup(std::string &error);
+  bool has_error(std::string &error);
 
 private:
   bool create_table_db_version(std::string &error);
