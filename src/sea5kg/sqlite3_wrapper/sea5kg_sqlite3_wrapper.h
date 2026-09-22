@@ -33,6 +33,10 @@
 #include <string>
 #include <vector>
 
+#define SEA5KG_SQLITE3_WRAPPER_VER_0
+#define SEA5KG_SQLITE3_WRAPPER_VER_0_1
+#define SEA5KG_SQLITE3_WRAPPER_VER_0_1_1
+
 namespace sea5kg {
 
 namespace sqlite3_wrapper {
